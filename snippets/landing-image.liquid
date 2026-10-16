@@ -1,0 +1,25 @@
+{% comment %}
+  One image from a product list.file_reference metafield.
+  Works with MediaImage or GenericFile.
+{% endcomment %}
+{%- liquid
+  assign media = image
+  if image.preview_image != blank
+    assign media = image.preview_image
+  endif
+-%}
+{%- if media != blank -%}
+  {%- assign image_alt = image.alt | default: media.alt | default: product.title -%}
+  <div class="landing-images__item">
+    {{
+      media
+      | image_url: width: 2000
+      | image_tag:
+        class: 'landing-images__img',
+        loading: 'lazy',
+        widths: '375, 550, 750, 1100, 1500, 2000',
+        sizes: sizes,
+        alt: image_alt
+    }}
+  </div>
+{%- endif -%}

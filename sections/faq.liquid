@@ -1,0 +1,606 @@
+{% comment %}
+  Sollora Luxury FAQ Accordion Section
+  Includes rich interactive accordions, category filtering, 24/7 support callout,
+  and automatic SEO FAQPage JSON-LD structured data.
+{% endcomment %}
+
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .sollora-faq {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .sollora-faq__header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .sollora-faq__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: {{ section.settings.badge_bg | default: '#FFF0F3' }};
+    color: {{ section.settings.badge_color | default: '#C8102E' }};
+    box-shadow: 0 2px 10px rgba(200, 16, 46, 0.1);
+    margin-bottom: 1.2rem;
+  }
+
+  .sollora-faq__badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: {{ section.settings.badge_color | default: '#C8102E' }};
+    box-shadow: 0 0 8px {{ section.settings.badge_color | default: '#C8102E' }};
+  }
+
+  .sollora-faq__heading {
+    font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: {{ section.settings.heading_color | default: '#1C1917' }};
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .sollora-faq__subheading {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: {{ section.settings.subtext_color | default: '#57534E' }};
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  /* Filter Category Tabs */
+  .sollora-faq__categories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2.8rem;
+  }
+
+  .sollora-faq__tab {
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-size: 1.45rem;
+    font-weight: 700;
+    background: #f4f4f5;
+    color: #4b5563;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .sollora-faq__tab:hover {
+    background: #e4e4e7;
+    color: #18181b;
+  }
+
+  .sollora-faq__tab.is-active {
+    background: {{ section.settings.accent_color | default: '#C8102E' }};
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(200, 16, 46, 0.25);
+  }
+
+  /* Accordion Item Card */
+  .sollora-faq__accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .sollora-faq__item {
+    background: #ffffff;
+    border: 1px solid #f0e6e8;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+  }
+
+  .sollora-faq__item:hover {
+    border-color: #e2c2c8;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .sollora-faq__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 2.4rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .sollora-faq__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sollora-faq__question {
+    font-size: clamp(1.5rem, 1.8vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.4;
+    color: {{ section.settings.heading_color | default: '#1C1917' }};
+    margin: 0;
+    padding-right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sollora-faq__icon-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    background: #FAF6F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ section.settings.accent_color | default: '#C8102E' }};
+    transition: all 0.3s ease;
+  }
+
+  .sollora-faq__item[open] .sollora-faq__icon-btn {
+    transform: rotate(45deg);
+    background: {{ section.settings.accent_color | default: '#C8102E' }};
+    color: #ffffff;
+  }
+
+  .sollora-faq__content {
+    padding: 0 2.4rem 2.2rem 2.4rem;
+    font-size: 1.45rem;
+    font-weight: 500;
+    line-height: 1.65;
+    color: {{ section.settings.answer_color | default: '#3F3F46' }};
+    animation: faqFadeIn 0.3s ease;
+  }
+
+  .sollora-faq__content p {
+    margin: 0 0 1rem 0;
+    line-height: 1.7;
+  }
+
+  .sollora-faq__content p:last-child {
+    margin-bottom: 0;
+  }
+
+  @keyframes faqFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Support Concierge Callout */
+  .sollora-faq__support-box {
+    margin-top: 3.5rem;
+    padding: 2.5rem 3rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #FAF6F5 0%, #FFF0F3 100%);
+    border: 1px solid #F3D0D7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .sollora-faq__support-text h4 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #1C1917;
+    margin: 0 0 0.4rem 0;
+  }
+
+  .sollora-faq__support-text p {
+    font-size: 1.55rem;
+    color: #57534E;
+    margin: 0;
+  }
+
+  .sollora-faq__support-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.2rem 2.4rem;
+    border-radius: 50px;
+    background: {{ section.settings.accent_color | default: '#C8102E' }};
+    color: #ffffff;
+    font-size: 1.55rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(200, 16, 46, 0.25);
+    transition: all 0.25s ease;
+  }
+
+  .sollora-faq__support-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(200, 16, 46, 0.35);
+    background: #A00C24;
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 749px) {
+    .sollora-faq__summary {
+      padding: 1.6rem 1.8rem;
+    }
+    .sollora-faq__content {
+      padding: 0 1.8rem 1.8rem 1.8rem;
+    }
+    .sollora-faq__support-box {
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+    }
+    .sollora-faq__support-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="sollora-faq">
+      
+      {% comment %} Header {% endcomment %}
+      <div class="sollora-faq__header">
+        {% if section.settings.badge_text != blank %}
+          <div class="sollora-faq__badge">
+            <span class="sollora-faq__badge-dot"></span>
+            {{ section.settings.badge_text | escape }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="sollora-faq__heading">
+            {{ section.settings.heading | escape }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <p class="sollora-faq__subheading">
+            {{ section.settings.subheading | escape }}
+          </p>
+        {% endif %}
+      </div>
+
+      {% comment %} Category Filter Tabs {% endcomment %}
+      {% if section.settings.show_categories %}
+        <div class="sollora-faq__categories js-faq-categories">
+          <button type="button" class="sollora-faq__tab is-active" data-filter="all">All Questions</button>
+          <button type="button" class="sollora-faq__tab" data-filter="shipping">Shipping & Delivery</button>
+          <button type="button" class="sollora-faq__tab" data-filter="product">Product & Quality</button>
+          <button type="button" class="sollora-faq__tab" data-filter="returns">Returns & Warranty</button>
+          <button type="button" class="sollora-faq__tab" data-filter="orders">Orders & Payments</button>
+        </div>
+      {% endif %}
+
+      {% comment %} Accordion Items {% endcomment %}
+      <div class="sollora-faq__accordion-list js-faq-accordion-list">
+        {% for block in section.blocks %}
+          <details
+            class="sollora-faq__item js-faq-item"
+            data-category="{{ block.settings.category | default: 'all' }}"
+            {{ block.shopify_attributes }}
+            {% if forloop.first and section.settings.open_first_item %}open{% endif %}
+          >
+            <summary class="sollora-faq__summary">
+              <h3 class="sollora-faq__question">
+                {{ block.settings.question | escape }}
+              </h3>
+              <span class="sollora-faq__icon-btn" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </summary>
+            <div class="sollora-faq__content rte">
+              {{ block.settings.answer }}
+            </div>
+          </details>
+        {% endfor %}
+      </div>
+
+      {% comment %} 24/7 Support Callout Box {% endcomment %}
+      {% if section.settings.show_support_box %}
+        <div class="sollora-faq__support-box">
+          <div class="sollora-faq__support-text">
+            <h4>{{ section.settings.support_heading | default: 'Still have questions?' }}</h4>
+            <p>{{ section.settings.support_text | default: 'Our dedicated Concierge Team is available 24/7 to assist you.' }}</p>
+          </div>
+          <a href="{{ section.settings.support_link | default: '/pages/contact' }}" class="sollora-faq__support-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <span>{{ section.settings.support_btn_text | default: 'Contact Concierge Support' }}</span>
+          </a>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% comment %} SEO FAQPage JSON-LD Structured Data Schema {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for block in section.blocks %}
+      {
+        "@type": "Question",
+        "name": {{ block.settings.question | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ block.settings.answer | strip_html | json }}
+        }
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tabs = document.querySelectorAll('.js-faq-categories .sollora-faq__tab');
+    var items = document.querySelectorAll('.js-faq-item');
+
+    if (!tabs.length || !items.length) return;
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
+        this.classList.add('is-active');
+
+        var filter = this.getAttribute('data-filter');
+
+        items.forEach(function (item) {
+          var category = item.getAttribute('data-category');
+          if (filter === 'all' || category === filter || category === 'all') {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Sollora FAQ Accordion",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Got Questions? We Have Answers."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Everything you need to know about Sollora products, express shipping, warranty, and our 30-day money-back guarantee."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_categories",
+      "label": "Show Category Filter Tabs",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first_item",
+      "label": "Open First Question by Default",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge Background Color",
+      "default": "#FFF0F3"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge & Accent Color",
+      "default": "#C8102E"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1C1917"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext Color",
+      "default": "#57534E"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer Color",
+      "default": "#3F3F46"
+    },
+    {
+      "type": "header",
+      "content": "Support Callout Box"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_support_box",
+      "label": "Show 24/7 Support Box",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Support Heading",
+      "default": "Still have questions?"
+    },
+    {
+      "type": "text",
+      "id": "support_text",
+      "label": "Support Subtext",
+      "default": "Our dedicated Concierge Team is available 24/7 to assist you."
+    },
+    {
+      "type": "text",
+      "id": "support_btn_text",
+      "label": "Support Button Text",
+      "default": "Contact Concierge Support"
+    },
+    {
+      "type": "url",
+      "id": "support_link",
+      "label": "Support Link"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            { "value": "shipping", "label": "Shipping & Delivery" },
+            { "value": "product", "label": "Product & Quality" },
+            { "value": "returns", "label": "Returns & Warranty" },
+            { "value": "orders", "label": "Orders & Payments" }
+          ],
+          "default": "shipping"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How fast is shipping, and how can I track my order?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>All orders are processed within 24 hours. We offer <strong>complimentary express worldwide shipping</strong> with typical delivery in 3–7 business days. You will receive an instant tracking link via email as soon as your package is dispatched.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sollora FAQ Accordion",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "category": "shipping",
+            "question": "How fast is shipping, and how do I track my delivery?",
+            "answer": "<p>All orders are processed within 24 hours. We provide <strong>complimentary insured express shipping</strong> with delivery in 3–7 business days. As soon as your order ships, you will receive an email and SMS containing your live tracking code.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "category": "returns",
+            "question": "What is your 30-Day Money-Back Guarantee policy?",
+            "answer": "<p>We stand behind the superior quality of every Sollora product with an unconditional <strong>30-day money-back guarantee</strong>. If you are not 100% in love with your purchase for any reason, simply contact our concierge team for a swift, prepaid return label and full refund.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "category": "product",
+            "question": "Are Sollora products covered by a manufacturer warranty?",
+            "answer": "<p>Yes! Every Sollora device and lifestyle accessory includes a comprehensive <strong>1-Year Full Replacement Warranty</strong> covering any manufacturing defects or technical performance issues at zero extra charge.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "category": "product",
+            "question": "What materials are used, and are they safe for daily use?",
+            "answer": "<p>All Sollora products are engineered using medical-grade, BPA-free, and dermatologically tested materials. Each piece undergoes rigorous European CE and RoHS quality certifications before dispatch.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "category": "orders",
+            "question": "What payment methods do you accept, and is checkout secure?",
+            "answer": "<p>We support all major payment methods including Visa, MasterCard, American Express, Apple Pay, Google Pay, PayPal, and Shop Pay. Our checkout utilizes bank-level <strong>256-bit SSL encryption</strong> to ensure your data is always 100% safe.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

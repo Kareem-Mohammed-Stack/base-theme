@@ -1,0 +1,867 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .footer {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    {% if template.name == 'product' and settings.show_sticky_cart_button %}
+    padding-bottom: {{ section.settings.padding_bottom | plus: 150 | times: 0.75 | round: 0 }}px;
+    {% else %}
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .footer {
+      margin-top: {{ section.settings.margin_top }}px;
+    }
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+     {% if template.name == 'product' and settings.show_sticky_cart_button %}
+    padding-bottom: {{ section.settings.padding_bottom | plus: 120 }}px;
+    {% else %}
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% endif %}
+    }
+  }
+  .footer-block__details-content .list-menu__item--link:hover {
+    color: #ffd2d2 !important;
+    padding-left: 4px;
+    transition: all 0.25s ease;
+  }
+
+  .footer-block__heading {
+    position: relative;
+    padding-bottom: 6px;
+  }
+
+  .footer-block__heading::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    height: 2px;
+    background: #ffd2d2;
+    border-radius: 2px;
+  }
+  /* Sollora red brand footer */
+  .footer {
+    background: #8f0000 !important;
+    color: #fff8f8 !important;
+    border-top: none !important;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 0.45rem;
+    background: #ffb4b4;
+  }
+
+  .footer .page-width {
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer__content-top {
+    padding-top: 4.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .footer-aura-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr 1.6fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .footer-aura-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-aura-brand__eyebrow {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #ffd2d2;
+    text-transform: uppercase;
+  }
+
+  .footer-aura-brand__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .footer-aura-brand__desc {
+    font-size: 1.55rem;
+    color: #ffe3e3;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 340px;
+    font-family: var(--font-body-family);
+  }
+
+  .footer-aura-social-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .footer-aura-social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .footer-aura-social-btn:hover {
+    border-color: #FFFFFF;
+    background: #FFFFFF;
+    color: #8f0000;
+    transform: translateY(-2px);
+  }
+
+  .footer-aura-heading {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.65rem !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    margin-bottom: 1.3rem !important;
+    margin-top: 0 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .footer-aura-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .footer-aura-link {
+    color: #ffe3e3;
+    font-size: 1.4rem;
+    text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
+    display: inline-block;
+  }
+
+  .footer-aura-link:hover {
+    color: #FFFFFF;
+    transform: translateX(3px);
+  }
+
+  .footer-aura-contact-desc {
+    color: #ffe3e3;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin: 0 0 0.85rem 0;
+  }
+
+  .footer-aura-email {
+    color: #ffd2d2;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 0.6rem;
+    transition: color 0.25s ease;
+  }
+
+  .footer-aura-email:hover {
+    color: #FFFFFF;
+  }
+
+  .footer-aura-hours {
+    color: #ffc4c4;
+    font-size: 1.35rem;
+    margin: 0;
+  }
+
+  /* Center Floating Back To Top Divider */
+  .footer-aura-divider-wrap {
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .footer-aura-back-top {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: #8f0000;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+    transition: transform 0.25s ease, background 0.25s ease;
+    z-index: 10;
+  }
+
+  .footer-aura-back-top:hover {
+    transform: translateX(-50%) translateY(-3px);
+    background: #ffd2d2;
+    color: #8f0000;
+  }
+
+  .footer-aura-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-aura-copy {
+    color: #ffc4c4;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .footer-aura-copy strong {
+    color: #FFFFFF;
+  }
+
+  .footer-aura-copy span.powered,
+  .footer-aura-copy a.powered {
+    color: #ffd2d2;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.25s ease, text-decoration 0.25s ease;
+  }
+
+  .footer-aura-copy a.powered:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: 990px) {
+    .footer-aura-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .footer-aura-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .footer-aura-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+{%- endstyle -%}
+{% if section.settings.show_collapse %}
+  <style>
+    @media (max-width: 749px) {
+      .grid .footer-block.grid__item {
+        margin: 0;
+      }
+      .grid .footer-block__heading {
+        position: relative;
+        margin: 0;
+        padding: 3.5rem 1.5rem 1.5rem 0;
+        cursor: pointer;
+      }
+      .grid .footer-block__heading::after {
+        content: "+";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        text-align: center;
+        font-size: 2.4rem;
+      }
+      .grid .footer-block__heading:not(.block-collapsed)::after {
+        content: "-";
+      }
+      .grid .footer-block__heading.block-collapsed + .footer-block__details-content {
+        visibility: hidden;
+        opacity: 0;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        transition: all .2s ease-out;
+        overflow: hidden;
+      }
+      .grid .footer-block__heading + .footer-block__details-content {
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+        transition: all .2s ease-out;
+        overflow: hidden;
+        margin-bottom: 3rem;
+      }
+
+    }
+  </style>
+  <script>
+window.addEventListener('DOMContentLoaded', () => {
+  const headings = document.querySelectorAll('.grid .footer-block__heading');
+
+  const handleCollapse = (heading) => {
+    const content = heading.nextElementSibling;
+
+    if (heading.classList.contains('block-collapsed')) {
+      heading.classList.remove('block-collapsed');
+      heading.setAttribute('aria-expanded', 'true');
+      content.style.display = 'block'; // or any other preferred display property
+    } else {
+      heading.classList.add('block-collapsed');
+      heading.setAttribute('aria-expanded', 'false');
+      content.style.display = 'none';
+    }
+  };
+
+  headings.forEach((heading, index) => {
+    heading.classList.add('block-collapsed');
+    heading.setAttribute('role', 'button');
+    heading.setAttribute('aria-expanded', 'false');
+    heading.setAttribute('tabindex', '0');
+
+    const content = heading.nextElementSibling;
+    content.setAttribute('id', `footer-block-index-${index}`);
+    heading.setAttribute('aria-controls', `footer-block-index-${index}`);
+
+    heading.addEventListener('click', () => {
+      handleCollapse(heading);
+    });
+
+    heading.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        handleCollapse(heading);
+      }
+    });
+  });
+});
+  </script>
+{% endif %}
+<style>
+   .footer-block__heading {
+      {% if section.settings.show_body_font == "body" %}
+      font-family: var(--font-body-family);
+      font-weight: var(--font-body-weight);
+      {% endif %}
+  }
+    {% if section.settings.show_border %}
+    .footer {
+    border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  }
+    {% endif %}}
+</style>
+
+<footer class="footer section-{{ section.id }}-padding">
+  <div class="page-width">
+    
+    <div class="footer-aura-grid">
+      <!-- Column 1: Brand Hero -->
+      <div class="footer-aura-brand">
+        <span class="footer-aura-brand__eyebrow">SOLLORA LUXURY</span>
+        <h2 class="footer-aura-brand__title">SOLLORA</h2>
+        <p class="footer-aura-brand__desc">Elevating homes with modern luxury design. Designed for effortless warmth, zero electrician wiring, and timeless ambient elegance.</p>
+        <div class="footer-aura-social-row">
+          <a href="#" class="footer-aura-social-btn" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-aura-social-btn" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Information Links -->
+      <div class="footer-aura-col">
+        <h3 class="footer-aura-heading">Information</h3>
+        <ul class="footer-aura-links">
+          <li><a href="/policies/privacy-policy" class="footer-aura-link">Privacy policy</a></li>
+          <li><a href="/policies/refund-policy" class="footer-aura-link">Refund policy</a></li>
+          <li><a href="/policies/terms-of-service" class="footer-aura-link">Terms of service</a></li>
+          <li><a href="/policies/shipping-policy" class="footer-aura-link">Shipping policy</a></li>
+          <li><a href="/pages/contact" class="footer-aura-link">Contact information</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Shop Links -->
+      <div class="footer-aura-col">
+        <h3 class="footer-aura-heading">Shop</h3>
+        <ul class="footer-aura-links">
+          <li><a href="{{ routes.root_url }}" class="footer-aura-link">Home</a></li>
+          <li><a href="{{ routes.all_products_collection_url }}" class="footer-aura-link">Catalog</a></li>
+          <li><a href="/pages/contact" class="footer-aura-link">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact & Touch -->
+      <div class="footer-aura-col">
+        <h3 class="footer-aura-heading">Need to Get in Touch?</h3>
+        <p class="footer-aura-contact-desc">Have questions about Sollora?</p>
+        <a href="mailto:sollorastore@gmail.com" class="footer-aura-email">sollorastore@gmail.com</a>
+        <p class="footer-aura-hours">Mon – Sat: 9:00 AM – 6:00 PM</p>
+      </div>
+    </div>
+
+    <!-- Center Floating Back To Top Button & Bottom Bar -->
+    <div class="footer-aura-divider-wrap">
+      <button type="button" class="footer-aura-back-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Back to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+      </button>
+
+      <div class="footer-aura-bottom">
+        <p class="footer-aura-copy">© 2026 Sollora • Powered by <a href="https://www.orcaad.com/" target="_blank" rel="noopener noreferrer" class="powered">OrcaAd</a></p>
+        <div class="footer-aura-payments">
+          {% render 'payment-icons-footer' %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "link_list",
+      "name": "t:sections.footer.blocks.link_list.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Quick links",
+          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "t:sections.footer.blocks.link_list.settings.menu.label",
+          "info": "t:sections.footer.blocks.link_list.settings.menu.info"
+        }
+      ]
+    },
+    {
+      "type": "brand_information",
+      "name": "t:sections.footer.blocks.brand_information.name",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.brand_information.settings.header__1.content"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "default": true,
+          "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
+          "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.footer.blocks.text.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "t:sections.footer.blocks.text.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "default": "<p>Share contact information, store details, and brand content with your customers.</p>",
+          "label": "t:sections.footer.blocks.text.settings.subtext.label"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "min": 50,
+          "max": 550,
+          "step": 5,
+          "unit": "px",
+          "label": "Image width",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Image alignment on large screen",
+          "options": [
+            {
+              "value": "",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        }
+      ]
+    },
+     {
+      "type": "big_image",
+      "name": "Ancher Image",
+      "settings": [
+        {
+              "type": "image_picker",
+              "id": "image_drawer",
+              "label": "Image"
+            },
+               {
+          "type": "range",
+          "id": "image_size",
+          "label": "Feature Image Size",
+          "min":       20,
+          "max":        100,
+          "step":       1,
+          "unit":       "%",
+
+          "default": 100
+          },
+           {
+          "type": "range",
+          "id": "image_border",
+          "label": "Image corner radius",
+          "min":       0,
+          "max":        40,
+          "step":       1,
+          "unit":       "px",
+
+          "default": 0
+          },
+         {
+          "type": "select",
+          "id": "img_position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Image Position"
+        },
+        {
+      "type": "range",
+      "id": "padding_top_image",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_image",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 16
+    }
+      ]
+     }
+  ],
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collapse",
+      "default": true,
+      "label": "Collapse content on Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "default": false,
+      "label": "Show top border"
+    },
+    {
+      "type": "select",
+      "id": "show_body_font",
+      "options": [
+        {
+          "value": "head",
+          "label": "Heading"
+        },
+        {
+          "value": "body",
+          "label": "Body"
+        }
+      ],
+      "default": "head",
+      "label": "Heading Font Style"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__1.content",
+      "info": "t:sections.footer.settings.header__1.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "newsletter_enable",
+      "default": true,
+      "label": "t:sections.footer.settings.newsletter_enable.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "newsletter_heading",
+      "default": "Subscribe to our emails",
+      "label": "t:sections.footer.settings.newsletter_heading.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__9.content",
+      "info": "t:sections.footer.settings.header__9.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_follow_on_shop.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__2.content",
+      "info": "t:sections.footer.settings.header__2.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "t:sections.footer.settings.show_social.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__3.content",
+      "info": "t:sections.footer.settings.header__4.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_country_selector.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__5.content",
+      "info": "t:sections.footer.settings.header__6.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_language_selector.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__7.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "default": true,
+      "label": "t:sections.footer.settings.payment_enable.label"
+    },
+      {
+      "type": "select",
+      "id": "original",
+      "options": [
+          {
+            "value": "original",
+            "label": "Original"
+          },
+          {
+            "value": "custom",
+            "label": "Custom"
+          }
+        ],
+        "default": "custom",
+        "label": "Icon style"
+        },
+        {
+         "type": "textarea",
+          "id": "payment_icon",
+          "label": "Payment Methods (Custom)",
+          "default": "visa,master,paypal,apple_pay,shopify-pay,google-pay",
+          "info": "Add the payment method keys separated by (,) commas. (e.g., visa,master,paypal,apple_pay). You can find all payment methods [here](https://lumintheme.com/pages/payment-method-list)."
+        },
+    {
+      "type": "header",
+      "content": "Copyright Info",
+      "info": "Footer copyright information"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_shopify",
+      "default": true,
+      "label": "Hide powered by shopify"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "copyright",
+      "default": "© 2023 All Rights Reserved",
+      "label": "Copyrights Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_text",
+      "default": false,
+      "label": "Show Bottom Text"
+    },
+     {
+      "type": "inline_richtext",
+      "id": "bottom_text",
+      "default": "Some text",
+      "label": "Bottom Text"
+    },
+     {
+            "type": "color",
+            "id": "color_bottom_text",
+            "label": "Text Color",
+            "default": "#868686"
+          },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__8.content",
+      "info": "t:sections.footer.settings.header__8.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy",
+      "default": false,
+      "label": "t:sections.footer.settings.show_policy.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.footer.settings.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "link_list"
+      },
+      {
+        "type": "text"
+      }
+    ]
+  }
+}
+{% endschema %}

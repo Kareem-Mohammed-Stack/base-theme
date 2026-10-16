@@ -1,0 +1,449 @@
+{% comment %}
+  Countdown Timer Deal Banner
+  Enhanced with luxury brand red gradient, glowing glassmorphism digit cards,
+  and high-converting claim deal button.
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: 3.8rem;
+      padding-right: 3.8rem;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .section-{{ section.id }}-padding {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+
+  /* Countdown Timer Luxury Banner Styling */
+  .countdown-timer--wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: {{ section.settings.video_border | default: 20 }}px;
+    background: linear-gradient(135deg, #121212 0%, #20080B 40%, #C8102E 100%);
+    box-shadow: 0 16px 40px rgba(200, 16, 46, 0.22);
+    border: 1px solid rgba(250, 240, 242, 0.15);
+    overflow: hidden;
+    color: #ffffff;
+  }
+
+  .countdown-timer--url {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+  }
+
+  .countdown-timer--container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .countdown-timer--left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .countdown-timer__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FFD6DC;
+  }
+
+  .countdown-timer__badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FF2E54;
+    box-shadow: 0 0 8px #FF2E54;
+  }
+
+  .countdown-timer__headline {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* Center Digits Cards */
+  .countdown-timer--center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .countdown-timer__label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.95;
+    color: #FFD6DC;
+  }
+
+  .countdown-digits-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .countdown-digit-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 8px 16px;
+    min-width: 64px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .countdown-digit-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countdown-digit-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+    margin-top: 3px;
+  }
+
+  .countdown-digit-colon {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Right CTA Button */
+  .countdown-timer--right {
+    display: flex;
+    align-items: center;
+  }
+
+  .countdown-timer__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 2.4rem;
+    border-radius: 50px;
+    background: #ffffff;
+    color: #C8102E;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  }
+
+  .countdown-timer--wrapper:hover .countdown-timer__cta-btn {
+    background: #FF2E54;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 46, 84, 0.4);
+  }
+
+  .countdown-timer__cta-btn svg {
+    transition: transform 0.25s ease;
+  }
+
+  .countdown-timer--wrapper:hover .countdown-timer__cta-btn svg {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 890px) {
+    .countdown-timer--container {
+      justify-content: center;
+      text-align: center;
+    }
+    .countdown-timer--left {
+      align-items: center;
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+{%- endstyle -%}
+
+{% if section.settings.timer %}
+  <div class="section-{{ section.id }}-margin{% if section.settings.layout == 'grid' %} page-width{% endif %}">
+    <div class="countdown-timer--wrapper section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
+      <a href="{{ section.settings.url | default: '/collections/all' }}" class="countdown-timer--url">
+        <div class="countdown-timer--container">
+          
+          <div class="countdown-timer--left">
+            <div class="countdown-timer__badge">
+              <span class="countdown-timer__badge-dot"></span>
+              {{ section.settings.first_text | default: 'Exclusive Offer — Limited Quantities' }}
+            </div>
+            <strong class="countdown-timer__headline">{{ section.settings.second_text | default: 'SPECIAL SIGNATURE DEAL' }}</strong>
+          </div>
+
+          <div class="countdown-timer--center">
+            <span class="countdown-timer__label">{{ section.settings.third_text | default: 'Limited Time Offer Ends In:' }}</span>
+            <div class="countdown-digits-wrapper">
+              <div class="countdown-digit-box">
+                <span class="countdown-digit-num" id="timer-days-{{ section.id }}">00</span>
+                <span class="countdown-digit-label">DAYS</span>
+              </div>
+              <span class="countdown-digit-colon">:</span>
+              <div class="countdown-digit-box">
+                <span class="countdown-digit-num" id="timer-hours-{{ section.id }}">00</span>
+                <span class="countdown-digit-label">HOURS</span>
+              </div>
+              <span class="countdown-digit-colon">:</span>
+              <div class="countdown-digit-box">
+                <span class="countdown-digit-num" id="timer-mins-{{ section.id }}">00</span>
+                <span class="countdown-digit-label">MINS</span>
+              </div>
+              <span class="countdown-digit-colon">:</span>
+              <div class="countdown-digit-box">
+                <span class="countdown-digit-num" id="timer-secs-{{ section.id }}">00</span>
+                <span class="countdown-digit-label">SECS</span>
+              </div>
+            </div>
+            <div class="countdown-timer legacy-timer hidden">-D --:--:--</div>
+          </div>
+
+          <div class="countdown-timer--right">
+            <span class="countdown-timer__cta-btn">
+              <span>CLAIM DEAL</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function initCountdownTimer(){
+        var countdown_timer = '{{ section.settings.timer }}';
+        if(!countdown_timer) return null;
+
+        var finalDate_timer = countdown_timer.split(' ')[0].split('/');
+        var finalTime_timer = countdown_timer.split(' ')[1].split(':');
+        var finalDate_js = new Date(finalDate_timer[2], finalDate_timer[0]-1, finalDate_timer[1], finalTime_timer[0], finalTime_timer[1]);
+        if(!finalDate_js) return null;
+
+        var daysEl = document.getElementById('timer-days-{{ section.id }}');
+        var hoursEl = document.getElementById('timer-hours-{{ section.id }}');
+        var minsEl = document.getElementById('timer-mins-{{ section.id }}');
+        var secsEl = document.getElementById('timer-secs-{{ section.id }}');
+
+        function padZero(num) {
+          return num < 10 ? '0' + num : num;
+        }
+
+        function updateTimer() {
+          var now = new Date().getTime();
+          var remaining_time = (finalDate_js.getTime() - now) / 1000;
+          if (remaining_time <= 0) {
+            remaining_time = 86400 * 5; // Default 5 days buffer if date passed
+          }
+
+          var days = Math.floor(remaining_time / 86400);
+          var hours = Math.floor((remaining_time % 86400) / 3600);
+          var minutes = Math.floor((remaining_time % 3600) / 60);
+          var seconds = Math.floor(remaining_time % 60);
+
+          if (daysEl) daysEl.textContent = padZero(days);
+          if (hoursEl) hoursEl.textContent = padZero(hours);
+          if (minsEl) minsEl.textContent = padZero(minutes);
+          if (secsEl) secsEl.textContent = padZero(seconds);
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Countdown Timer Banner",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.popup"]
+  },
+  "limit": 1,
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "full_bleed", "label": "Full Width" },
+        { "value": "grid", "label": "Grid Container" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "Show Border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "video_border",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 20,
+      "label": "Corner Radius (px)"
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "first_text",
+      "label": "Small Top Badge Text",
+      "default": "Exclusive Offer — Limited Quantities"
+    },
+    {
+      "type": "text",
+      "id": "second_text",
+      "label": "Main Big Headline",
+      "default": "SPECIAL SIGNATURE DEAL"
+    },
+    {
+      "type": "text",
+      "id": "third_text",
+      "label": "Timer Label",
+      "default": "Limited Time Offer Ends In:"
+    },
+    {
+      "type": "text",
+      "id": "timer",
+      "label": "Target Date (MM/DD/YYYY HH:MM)",
+      "default": "12/31/2026 23:59"
+    },
+    {
+      "type": "text",
+      "id": "timer_days",
+      "label": "Days Label",
+      "default": "D"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "Banner Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36,
+      "label": "Top Padding (px)"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36,
+      "label": "Bottom Padding (px)"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "label": "Top Margin (px)"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "label": "Bottom Margin (px)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer Banner",
+      "settings": {
+        "first_text": "Exclusive Offer — Limited Quantities",
+        "second_text": "SPECIAL SIGNATURE DEAL",
+        "third_text": "Limited Time Offer Ends In:",
+        "timer": "12/31/2026 23:59"
+      }
+    }
+  ]
+}
+{% endschema %}

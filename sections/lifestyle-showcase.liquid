@@ -1,0 +1,818 @@
+{% comment %}
+  Lifestyle Showcase Section
+  Ultra-luxurious 2-column feature split with warm champagne aesthetics,
+  serif typography, feature highlights, and interactive product hotspot pins.
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Lifestyle Showcase Base */
+  .lifestyle-showcase {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    isolation: isolate;
+  }
+
+  .lifestyle-showcase__container {
+    display: grid;
+    grid-template-columns: {{ section.settings.desktop_split | default: '45% 55%' }};
+    gap: {{ section.settings.grid_gap | default: 0 }}px;
+    border-radius: {{ section.settings.corner_radius | default: 24 }}px;
+    overflow: hidden;
+    background: {{ section.settings.bg_color | default: '#FAF5EE' }};
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  @media screen and (max-width: 989px) {
+    .lifestyle-showcase__container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Left Content Card */
+  .lifestyle-showcase__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 5vw, 4.5rem);
+    background: {{ section.settings.content_bg | default: '#FAF5EE' }};
+    color: {{ section.settings.text_color | default: '#1C1917' }};
+    position: relative;
+    z-index: 2;
+  }
+
+  .lifestyle-showcase__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color | default: '#D49A33' }};
+    margin-bottom: 1.25rem;
+  }
+
+  .lifestyle-showcase__eyebrow-icon {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .lifestyle-showcase__title {
+    font-family: var(--font-heading-family), 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.4rem, 3.4vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: {{ section.settings.heading_color | default: '#1C1917' }};
+    margin: 0 0 1.25rem 0;
+  }
+
+  .lifestyle-showcase__title span.highlight {
+    color: {{ section.settings.accent_color | default: '#D49A33' }};
+    font-style: italic;
+  }
+
+  .lifestyle-showcase__description {
+    font-size: clamp(1.5rem, 1.8vw, 1.7rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: {{ section.settings.subtext_color | default: '#44403C' }};
+    margin: 0 0 2rem 0;
+    max-width: 520px;
+  }
+
+  /* Feature Checklist Highlights */
+  .lifestyle-showcase__features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .lifestyle-showcase__feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: {{ section.settings.heading_color | default: '#1C1917' }};
+  }
+
+  .lifestyle-showcase__feature-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(212, 154, 51, 0.15);
+    color: {{ section.settings.accent_color | default: '#D49A33' }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Button Actions Group */
+  .lifestyle-showcase__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .lifestyle-showcase__btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.3rem 2.8rem;
+    border-radius: {{ section.settings.button_radius | default: 8 }}px;
+    background: {{ section.settings.btn_bg | default: '#C8102E' }};
+    color: {{ section.settings.btn_color | default: '#FFFFFF' }};
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 8px 20px rgba(200, 16, 46, 0.25);
+    border: none;
+  }
+
+  .lifestyle-showcase__btn-primary:hover {
+    background: {{ section.settings.btn_hover_bg | default: '#A00000' }};
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(200, 16, 46, 0.35);
+    color: #FFFFFF;
+  }
+
+  .lifestyle-showcase__btn-primary svg {
+    transition: transform 0.25s ease;
+  }
+
+  .lifestyle-showcase__btn-primary:hover svg {
+    transform: translateX(4px);
+  }
+
+  .lifestyle-showcase__btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: {{ section.settings.heading_color | default: '#1C1917' }};
+    text-decoration: none;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.25s ease;
+  }
+
+  .lifestyle-showcase__btn-secondary::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.25s ease;
+    transform-origin: right;
+    transform: scaleX(0.4);
+  }
+
+  .lifestyle-showcase__btn-secondary:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+
+  /* Right Media Showcase */
+  .lifestyle-showcase__media-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    overflow: hidden;
+    background: #EBE5DF;
+  }
+
+  @media screen and (max-width: 989px) {
+    .lifestyle-showcase__media-container {
+      min-height: 380px;
+      order: {{ section.settings.mobile_media_position | default: '-1' }};
+    }
+  }
+
+  .lifestyle-showcase__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .lifestyle-showcase__container:hover .lifestyle-showcase__image {
+    transform: scale(1.03);
+  }
+
+  /* Interactive Hotspot Pins */
+  .lifestyle-hotspot {
+    position: absolute;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+  }
+
+  .lifestyle-hotspot__btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1C1917;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .lifestyle-hotspot__btn::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    animation: hotspotPulse 2s infinite;
+  }
+
+  @keyframes hotspotPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  .lifestyle-hotspot:hover .lifestyle-hotspot__btn,
+  .lifestyle-hotspot.is-active .lifestyle-hotspot__btn {
+    background: {{ section.settings.accent_color | default: '#C8102E' }};
+    color: #FFFFFF;
+    transform: scale(1.15);
+  }
+
+  /* Hotspot Card Tooltip */
+  .lifestyle-hotspot__tooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 230px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    pointer-events: none;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.06);
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 20;
+  }
+
+  .lifestyle-hotspot:hover .lifestyle-hotspot__tooltip,
+  .lifestyle-hotspot.is-active .lifestyle-hotspot__tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+
+  .lifestyle-hotspot__tooltip:hover {
+    box-shadow: 0 16px 36px rgba(0,0,0,0.22);
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  .lifestyle-hotspot__tooltip-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .lifestyle-hotspot__tooltip-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-grow: 1;
+  }
+
+  .lifestyle-hotspot__tooltip-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1C1917;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+
+  .lifestyle-hotspot__tooltip-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: {{ section.settings.accent_color | default: '#C8102E' }};
+  }
+
+  .lifestyle-hotspot__tooltip-arrow {
+    margin-left: auto;
+    color: #888888;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .lifestyle-hotspot__tooltip:hover .lifestyle-hotspot__tooltip-arrow {
+    transform: translateX(3px);
+    color: {{ section.settings.accent_color | default: '#C8102E' }};
+  }
+{%- endstyle -%}
+
+<div class="lifestyle-showcase color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
+  <div class="page-width">
+    
+    <div class="lifestyle-showcase__container">
+      
+      {% comment %} Left Content Column {% endcomment %}
+      <div class="lifestyle-showcase__content">
+        
+        {% if section.settings.eyebrow_text != blank %}
+          <div class="lifestyle-showcase__eyebrow">
+            <span class="lifestyle-showcase__eyebrow-icon"></span>
+            {{ section.settings.eyebrow_text }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.title != blank %}
+          <h2 class="lifestyle-showcase__title">
+            {{ section.settings.title | replace: '[', '<span class="highlight">' | replace: ']', '</span>' }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.subtitle != blank %}
+          <p class="lifestyle-showcase__description">
+            {{ section.settings.subtitle }}
+          </p>
+        {% endif %}
+
+        {% comment %} Feature Checklist Highlights {% endcomment %}
+        <div class="lifestyle-showcase__features">
+          {% for block in section.blocks %}
+            {% if block.type == 'feature' %}
+              <div class="lifestyle-showcase__feature-item" {{ block.shopify_attributes }}>
+                <span class="lifestyle-showcase__feature-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span>{{ block.settings.feature_text }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% comment %} Action Buttons {% endcomment %}
+        <div class="lifestyle-showcase__actions">
+          {% if section.settings.btn_text != blank %}
+            <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="lifestyle-showcase__btn-primary">
+              <span>{{ section.settings.btn_text }}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          {% endif %}
+
+          {% if section.settings.secondary_btn_text != blank %}
+            <a href="{{ section.settings.secondary_btn_url | default: '/collections/all' }}" class="lifestyle-showcase__btn-secondary">
+              <span>{{ section.settings.secondary_btn_text }}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          {% endif %}
+        </div>
+
+      </div>
+
+      {% comment %} Right Media Column & Hotspots {% endcomment %}
+      <div class="lifestyle-showcase__media-container">
+        {% if section.settings.image != blank %}
+          {{
+            section.settings.image
+            | image_url: width: 1800
+            | image_tag:
+              class: 'lifestyle-showcase__image',
+              loading: 'lazy',
+              widths: '600, 900, 1200, 1500, 1800',
+              sizes: '(min-width: 990px) 55vw, 100vw',
+              alt: section.settings.title
+          }}
+        {% else %}
+          <img
+            src="{{ 'lifestyle-showcase-hero.png' | asset_url }}"
+            alt="Lifestyle Showcase Products"
+            class="lifestyle-showcase__image"
+            loading="lazy"
+            width="1800"
+            height="1200"
+          >
+        {% endif %}
+
+        {% comment %} Interactive Hotspot Pins (Blocks) {% endcomment %}
+        {% for block in section.blocks %}
+          {% if block.type == 'hotspot' %}
+            {% liquid
+              assign hotspot_product = block.settings.product
+              if hotspot_product != blank
+                assign target_url = hotspot_product.url
+                assign target_title = hotspot_product.title
+                assign target_price = hotspot_product.price | money
+                if hotspot_product.featured_media
+                  assign target_img = hotspot_product.featured_media | image_url: width: 120
+                elsif block.settings.fallback_image_asset != blank
+                  assign target_img = block.settings.fallback_image_asset | asset_url
+                else
+                  assign target_img = ''
+                endif
+              else
+                assign target_url = block.settings.url | default: '/collections/all'
+                assign target_title = block.settings.title | default: 'Sollora Product'
+                assign target_price = block.settings.price | default: '$45.00'
+                if block.settings.fallback_image_asset != blank
+                  assign target_img = block.settings.fallback_image_asset | asset_url
+                else
+                  assign target_img = ''
+                endif
+              endif
+            %}
+            <div
+              class="lifestyle-hotspot"
+              style="top: {{ block.settings.top_position }}%; left: {{ block.settings.left_position }}%;"
+              {{ block.shopify_attributes }}
+            >
+              <a href="{{ target_url }}" class="lifestyle-hotspot__btn" aria-label="View {{ target_title }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </a>
+
+              <a href="{{ target_url }}" class="lifestyle-hotspot__tooltip" aria-label="View {{ target_title }}">
+                {% if target_img != blank %}
+                  <img src="{{ target_img }}" class="lifestyle-hotspot__tooltip-img" alt="{{ target_title }}" width="50" height="50">
+                {% endif %}
+                <div class="lifestyle-hotspot__tooltip-info">
+                  <span class="lifestyle-hotspot__tooltip-title">{{ target_title }}</span>
+                  <span class="lifestyle-hotspot__tooltip-price">{{ target_price }}</span>
+                </div>
+                <svg class="lifestyle-hotspot__tooltip-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    function initLifestyleHotspots() {
+      var section = document.querySelector('.section-{{ section.id }}-padding') || document.querySelector('.lifestyle-showcase');
+      if (!section) return;
+
+      var hotspots = section.querySelectorAll('.lifestyle-hotspot');
+      hotspots.forEach(function(hotspot) {
+        var btn = hotspot.querySelector('.lifestyle-hotspot__btn');
+        if (!btn) return;
+
+        btn.addEventListener('click', function(e) {
+          if (window.matchMedia('(hover: none)').matches) {
+            if (!hotspot.classList.contains('is-active')) {
+              e.preventDefault();
+              hotspots.forEach(function(h) { h.classList.remove('is-active'); });
+              hotspot.classList.add('is-active');
+            }
+          }
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.lifestyle-hotspot')) {
+          hotspots.forEach(function(h) { h.classList.remove('is-active'); });
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLifestyleHotspots);
+    } else {
+      initLifestyleHotspots();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Lifestyle Showcase Split",
+  "tag": "section",
+  "class": "section-lifestyle-showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "desktop_split",
+      "label": "Desktop Column Split",
+      "options": [
+        { "value": "45% 55%", "label": "45% Left / 55% Right" },
+        { "value": "50% 50%", "label": "50% Equal Split" },
+        { "value": "40% 60%", "label": "40% Left / 60% Right" }
+      ],
+      "default": "45% 55%"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "default": 24,
+      "label": "Container Corner Radius (px)"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Aesthetics"
+    },
+    {
+      "type": "color",
+      "id": "content_bg",
+      "label": "Left Card Background Color",
+      "default": "#FAF6F5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#1C1917"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtitle Text Color",
+      "default": "#57534E"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Brand Accent Color",
+      "default": "#C8102E"
+    },
+    {
+      "type": "header",
+      "content": "Content Wording"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Tagline",
+      "default": "SOLLORA SIGNATURE COLLECTION"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Heading",
+      "default": "Elevate Your Space [Elevate Your Life]"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle / Description",
+      "default": "Premium products that blend beauty, functionality, and timeless design."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Primary Button Label",
+      "default": "DISCOVER LIFESTYLE"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Primary Button URL"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Primary Button Color",
+      "default": "#C8102E"
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Primary Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 8,
+      "label": "Button Corner Radius (px)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_btn_text",
+      "label": "Secondary Button Label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_url",
+      "label": "Secondary Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Right Side Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Showcase Image"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 48,
+      "label": "Top Padding (px)"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 48,
+      "label": "Bottom Padding (px)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Benefit Highlight",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Feature Wording",
+          "default": "Handcrafted with premium materials"
+        }
+      ]
+    },
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot Pin",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Custom Product / Page Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Fallback Product Title",
+          "default": "Luxe LED Jellyfish Lamp"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Fallback Price",
+          "default": "$59.00"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image_asset",
+          "label": "Asset Image Filename"
+        },
+        {
+          "type": "range",
+          "id": "top_position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 45,
+          "label": "Vertical Position Top (%)"
+        },
+        {
+          "type": "range",
+          "id": "left_position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 30,
+          "label": "Horizontal Position Left (%)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lifestyle Showcase Split",
+      "settings": {
+        "eyebrow_text": "SOLLORA SIGNATURE COLLECTION",
+        "title": "Elevate Your Space [Elevate Your Life]",
+        "subtitle": "Premium products that blend beauty, functionality, and timeless design.",
+        "btn_text": "DISCOVER LIFESTYLE",
+        "btn_bg": "#C8102E",
+        "content_bg": "#FAF6F5"
+      },
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "feature_text": "Crafted with premium materials & precision"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_text": "Blending luxury aesthetics with daily utility"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_text": "Complimentary express shipping & 30-day guarantee"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "Ambient Jellyfish Tower",
+            "price": "$59.00",
+            "top_position": 50,
+            "left_position": 22
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "3-in-1 Magnetic Wireless Station",
+            "price": "$79.00",
+            "top_position": 62,
+            "left_position": 48
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
