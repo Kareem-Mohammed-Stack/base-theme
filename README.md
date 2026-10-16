@@ -8,7 +8,7 @@ This repository contains the source files for the **base-theme** project. It is 
 
 ## Live Store
 
-[https://github.com/Elkfox/Ajaxinate](https://github.com/Elkfox/Ajaxinate)
+Not provided — add the verified live store URL.
 
 > Confirm that the URL above is the correct public storefront before sharing this repository.
 
@@ -75,3 +75,4 @@ Use descriptive commit messages and review changes before pushing. Keep dependen
 
 ---
 Documentation generated for the base-theme project.
+
